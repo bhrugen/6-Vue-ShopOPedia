@@ -47,6 +47,11 @@ const router = createRouter({
       name: APP_ROUTE_NAMES.PRODUCT_LIST,
       component: ProductList,
     },
+    {
+      path: '/product-create',
+      name: APP_ROUTE_NAMES.PRODUCT_CREATE,
+      component: ProductUpsert,
+    },
   ],
 })
 
