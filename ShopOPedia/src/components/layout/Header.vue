@@ -46,12 +46,14 @@
             </a>
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item" href="#"><i class="bi bi-sun"></i> &nbsp; Light</a>
+                <button @click="themeStore.setTheme('light')" class="dropdown-item">
+                  <i class="bi bi-sun"></i> &nbsp; Light
+                </button>
               </li>
               <li>
-                <a class="dropdown-item" href="#"
-                  ><i class="bi bi-moon-stars-fill"></i> &nbsp; Dark</a
-                >
+                <button class="dropdown-item" @click="themeStore.setTheme('dark')">
+                  <i class="bi bi-moon-stars-fill"></i> &nbsp; Dark
+                </button>
               </li>
             </ul>
           </li>
@@ -80,6 +82,7 @@
 <script setup>
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 import { useRouter } from 'vue-router'
-
+import { useThemeStore } from '@/stores/themeStore'
+const themeStore = useThemeStore()
 const router = useRouter()
 </script>
