@@ -61,8 +61,8 @@
             </div>
           </div>
           <div class="pt-3">
-            <button class="btn btn-success m-2 w-25">
-              <span class="spinner-border spinner-border-sm me-2"></span>Submit
+            <button class="btn btn-success m-2 w-25" :disabled="loading">
+              <span v-if="loading" class="spinner-border spinner-border-sm me-2"></span>Submit
             </button>
             <a href="/" class="btn btn-secondary m-2 w-25"> Cancel </a>
           </div>
@@ -97,7 +97,25 @@ const productObj = reactive({
   image: 'https://placehold.co/600x400',
 })
 
-function handleSubmit() {
+async function handleSubmit() {
+  try {
+    loading.value = true
+
+    const productData = {
+      ...productObj,
+      price: Number(productObj.price),
+      salePrice: productObj.salePrice ? Number(productObj.salePrice) : null,
+      tags: productObj.tags.split(',').map((tag) => tag.trim()),
+      bestseller: Boolean(productObj.isBestSeller),
+    }
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    console.log(productData)
+  } catch (e) {
+    console.log(e)
+  } finally {
+    loading.value = false
+  }
+
   console.log(productObj)
 }
 </script>
