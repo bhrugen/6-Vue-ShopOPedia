@@ -5,10 +5,10 @@
         <form v-on:submit.prevent="handleSubmit">
           <div class="h2 text-center text-success">Create Product</div>
           <hr />
-          <div class="alert alert-danger pb-0">
+          <div v-if="errorList.length > 0" class="alert alert-danger pb-0">
             Please fix the following errors:
             <ul>
-              <li>Error List</li>
+              <li v-for="error in errorList" :key="error">{{ error }}</li>
             </ul>
           </div>
 
@@ -86,6 +86,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 const route = useRoute()
 const loading = ref(false)
+const errorList = reactive([])
 const productObj = reactive({
   name: '',
   description: '',
@@ -100,16 +101,30 @@ const productObj = reactive({
 async function handleSubmit() {
   try {
     loading.value = true
+    errorList.length = 0 // clear it
 
-    const productData = {
-      ...productObj,
-      price: Number(productObj.price),
-      salePrice: productObj.salePrice ? Number(productObj.salePrice) : null,
-      tags: productObj.tags.split(',').map((tag) => tag.trim()),
-      bestseller: Boolean(productObj.isBestSeller),
+    //validations
+    if (productObj.name.length < 3) {
+      errorList.push('Name should be at least 3 char long.')
     }
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    console.log(productData)
+    if (productObj.price <= 0) {
+      errorList.push('Price should be greater than 0.')
+    }
+    if (productObj.category === '') {
+      errorList.push('Please select a category.')
+    }
+
+    if (!errorList.length) {
+      const productData = {
+        ...productObj,
+        price: Number(productObj.price),
+        salePrice: productObj.salePrice ? Number(productObj.salePrice) : null,
+        tags: productObj.tags.split(',').map((tag) => tag.trim()),
+        bestseller: Boolean(productObj.isBestSeller),
+      }
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      console.log(productData)
+    }
   } catch (e) {
     console.log(e)
   } finally {
