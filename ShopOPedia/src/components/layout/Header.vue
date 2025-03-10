@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <img src="../../assets/logo.png" style="width: 40px" class="mx-3" alt="ShopOPedia" />
       <button
         class="navbar-toggler"
         type="button"
@@ -16,7 +16,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <route-link
+              class="nav-link active"
+              aria-current="page"
+              :to="{ name: APP_ROUTE_NAMES.HOME }"
+              >Home</route-link
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -50,3 +55,10 @@
     </div>
   </nav>
 </template>
+
+<script>
+import { APP_ROUTE_NAMES } from '@/constants/routeNames'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+</script>
