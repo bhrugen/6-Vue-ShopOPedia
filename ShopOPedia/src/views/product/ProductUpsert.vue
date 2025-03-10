@@ -83,9 +83,11 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { PRODUCT_CATEGORIES } from '@/constants/appConstants'
+import { useSwal } from '@/utility/useSwal'
+const { showSuccess, showError, showConfirm } = useSwal()
 const route = useRoute()
 const loading = ref(false)
 const errorList = reactive([])
@@ -125,6 +127,7 @@ async function handleSubmit() {
         bestseller: Boolean(productObj.isBestSeller),
       }
       await new Promise((resolve) => setTimeout(resolve, 2000))
+      showSuccess('Product created successfully')
       console.log(productData)
     }
   } catch (e) {
