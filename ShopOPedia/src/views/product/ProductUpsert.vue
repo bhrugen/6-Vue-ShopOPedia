@@ -123,7 +123,7 @@ async function handleSubmit() {
         ...productObj,
         price: Number(productObj.price),
         salePrice: productObj.salePrice ? Number(productObj.salePrice) : null,
-        tags: productObj.tags.split(',').map((tag) => tag.trim()),
+        tags: productObj.tags.length > 0 ? productObj.tags.split(',').map((tag) => tag.trim()) : [],
         bestseller: Boolean(productObj.isBestSeller),
       }
       await new Promise((resolve) => setTimeout(resolve, 2000))
