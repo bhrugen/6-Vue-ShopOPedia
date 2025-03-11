@@ -42,21 +42,25 @@ const router = createRouter({
       path: '/contact-us',
       name: APP_ROUTE_NAMES.CONTACT_US,
       component: ContactUs,
+      beforeEnter: [isAuthenticated],
     },
     {
       path: '/product-list',
       name: APP_ROUTE_NAMES.PRODUCT_LIST,
       component: ProductList,
+      beforeEnter: [isAdmin],
     },
     {
       path: '/product-create',
       name: APP_ROUTE_NAMES.PRODUCT_CREATE,
       component: ProductUpsert,
+      beforeEnter: [isAdmin],
     },
     {
       path: '/product-update/:id',
       name: APP_ROUTE_NAMES.PRODUCT_UPDATE,
       component: ProductUpsert,
+      beforeEnter: [isAdmin],
     },
   ],
 })
@@ -68,5 +72,27 @@ router.beforeEach(async (toString, from) => {
     await authStore.initializeAuth()
   }
 })
+
+function isAdmin() {
+  const authStore = useAuthStore()
+  if (authStore.isAuthenticated) {
+    if (authStore.isAdmin) {
+      return true
+    } else {
+      return { name: APP_ROUTE_NAMES.ACCESS_DENIED }
+    }
+  } else {
+    return { name: APP_ROUTE_NAMES.SIGN_IN }
+  }
+}
+
+function isAuthenticated() {
+  const authStore = useAuthStore()
+  if (authStore.isAuthenticated) {
+    return true
+  } else {
+    return { name: APP_ROUTE_NAMES.SIGN_IN }
+  }
+}
 
 export default router
