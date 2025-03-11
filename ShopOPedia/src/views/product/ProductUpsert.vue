@@ -150,8 +150,15 @@ async function handleSubmit() {
         tags: productObj.tags.length > 0 ? productObj.tags.split(',').map((tag) => tag.trim()) : [],
         bestseller: Boolean(productObj.isBestSeller),
       }
-      await productService.createProduct(productData)
-      showSuccess('Product created successfully')
+      if (productIdForUpdate) {
+        //update
+        await productService.updateProduct(productIdForUpdate, productData)
+        showSuccess('Product updated successfully')
+      } else {
+        //create
+        await productService.createProduct(productData)
+        showSuccess('Product created successfully')
+      }
       router.push({ name: APP_ROUTE_NAMES.PRODUCT_LIST })
       console.log(productData)
     }
