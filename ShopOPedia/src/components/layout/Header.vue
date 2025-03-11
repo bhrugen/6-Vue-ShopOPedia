@@ -65,7 +65,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!authStore.isAuthenticated">
             <router-link
               class="nav-link active"
               aria-current="page"
@@ -73,13 +73,16 @@
               >Sign In</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!authStore.isAuthenticated">
             <router-link
               class="nav-link active"
               aria-current="page"
               :to="{ name: APP_ROUTE_NAMES.SIGN_UP }"
               >Sign Up</router-link
             >
+          </li>
+          <li class="nav-item" v-if="authStore.isAuthenticated">
+            <button class="nav-link">Sign Out</button>
           </li>
         </ul>
       </div>
@@ -91,6 +94,8 @@
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/themeStore'
+import { useAuthStore } from '@/stores/authStore'
+const authStore = useAuthStore()
 const themeStore = useThemeStore()
 const router = useRouter()
 </script>
