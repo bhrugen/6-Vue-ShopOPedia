@@ -1,6 +1,12 @@
 <template>
   <div class="container py-4">
-    <div class="border rounded pb-3 px-2">
+    <div v-if="loading" class="d-flex justify-content-center align-items-center vh-100">
+      <div class="spinner-grow text-secondary">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div class="border rounded pb-3 px-2" v-else>
       <div
         class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center p-4"
       >
