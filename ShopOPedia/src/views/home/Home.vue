@@ -22,6 +22,7 @@
             <div class="input-group mt-3 mx-auto shadow-lg rounded-4" style="max-width: 700px">
               <input
                 type="text"
+                v-model="searchValue"
                 class="form-control border-0 py-3 px-4 fs-5"
                 placeholder="Search your favorite product..."
               />
@@ -59,13 +60,13 @@
               data-bs-toggle="dropdown"
             >
               <i class="bi bi-sort-down"></i>
-              <span class="text-capitalize">SORT</span>
+              <span class="text-capitalize">{{ selectedSortOption }}</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li>
+              <li v-for="(sort, index) in SORT_OPTIONS" :key="index">
                 <button class="dropdown-item py-2 d-flex align-items-center gap-2">
                   <i class="bi"></i>
-                  <span class="text-capitalize"> SORT OPTIONS </span>
+                  <span class="text-capitalize"> {{ sort }} </span>
                 </button>
               </li>
             </ul>
@@ -93,9 +94,18 @@
 import { computed, onMounted, ref } from 'vue'
 import productService from '@/services/productService'
 import ProductCard from '@/components/Product/ProductCard.vue'
-import { PRODUCT_CATEGORIES } from '@/constants/appConstants'
+import {
+  PRODUCT_CATEGORIES,
+  SORT_NAME_A_Z,
+  SORT_NAME_Z_A,
+  SORT_OPTIONS,
+  SORT_PRICE_HIGH_LOW,
+  SORT_PRICE_LOW_HIGH,
+} from '@/constants/appConstants'
 const products = ref([])
 const loading = ref(false)
+const searchValue = ref('')
+const selectedSortOption = ref(SORT_OPTIONS[0])
 const selectedCategory = ref('ALL')
 const categoryList = ref(['ALL', ...PRODUCT_CATEGORIES])
 onMounted(() => {
@@ -121,6 +131,12 @@ const filteredProductList = computed(() => {
       : products.value.filter(
           (item) => item.category.toUpperCase() === selectedCategory.value.toUpperCase(),
         )
+
+  if (searchValue.value) {
+    tempArray = tempArray.filter((item) => {
+      return item.name.toUpperCase().includes(searchValue.value.toUpperCase())
+    })
+  }
 
   return tempArray
 })
