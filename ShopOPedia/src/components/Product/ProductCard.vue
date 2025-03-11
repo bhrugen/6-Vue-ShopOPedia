@@ -20,13 +20,13 @@
         <p class="card-text text-truncate-lines-2 mb-3">{{ product.description }}</p>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div class="fw-bold me-2 fs-5 text-muted">
-            <span>
-              <span class="text-decoration-line-through">
-                ${{ product.price.toFixed(0) }} /sqft
-              </span>
-              <span class="text-danger px-1"> SALE</span>
+            <span
+              class="text-success"
+              :style="{ textDecoration: product.salePrice ? 'line-through' : 'none' }"
+            >
+              ${{ product.price.toFixed(0) }} /sqft
             </span>
-            <span> ${{ product.salePrice }} /sqft </span>
+            <span v-if="product.salePrice" class="px-2 text-danger"> SALE! </span>
           </div>
           <button class="btn btn-success fs-6 py-2 px-4 btn-sm" data-bs-toggle="modal">
             <i class="bi bi-card-list"></i> View Details
