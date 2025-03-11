@@ -13,4 +13,21 @@ export default {
     const snaphost = await getDocs(productCollection)
     return snaphost.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
   },
+
+  async getProductById(id) {
+    const docRef = doc(db, 'products', id)
+    const snaphost = await getDoc(docRef)
+    return { id: snaphost.id, ...snaphost.data() }
+  },
+
+  async updateProduct(id, productData) {
+    const docRef = doc(db, 'products', id)
+    await updateDoc(docRef, productData)
+    return { id, ...productData }
+  },
+
+  async deleteProduct(id) {
+    const docRef = doc(db, 'products', id)
+    await deleteDoc(docRef)
+  },
 }
