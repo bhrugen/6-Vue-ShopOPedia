@@ -89,7 +89,10 @@
                     <i class="bi bi-pencil-fill"></i> Edit
                   </button>
 
-                  <button class="btn btn-sm btn-outline-danger">
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    @click="handleProductDelete(product.id)"
+                  >
                     <i class="bi bi-trash3-fill"></i> Delete
                   </button>
                 </td>
@@ -104,7 +107,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import productService from '@/services/productService'
-
+import { useSwal } from '@/utility/useSwal'
+const { showSuccess, showError, showConfirm } = useSwal()
 const products = ref([])
 const loading = ref(false)
 
@@ -116,6 +120,22 @@ const fetchProducts = async () => {
   try {
     loading.value = true
     products.value = await productService.getProducts()
+  } catch (err) {
+    console.log(err)
+  } finally {
+    loading.value = false
+  }
+}
+
+const handleProductDelete = async (productId) => {
+  try {
+    loading.value = true
+    const confirmResult = await showConfirm('Are you sure you want to delete this product?')
+    if (confirmResult.isConfirmed) {
+      await productService.deleteProduct(productId)
+      await showSuccess('Product deleted successfully')
+      fetchProducts()
+    }
   } catch (err) {
     console.log(err)
   } finally {
