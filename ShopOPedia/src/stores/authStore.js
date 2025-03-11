@@ -17,6 +17,7 @@ export const useAuthStore = defineStore('authStore', () => {
       error.value = null
     } catch (err) {
       error.value = err.message
+      throw err
     } finally {
       isLoading.value = false
     }
