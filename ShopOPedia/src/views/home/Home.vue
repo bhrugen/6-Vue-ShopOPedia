@@ -23,7 +23,6 @@
               <input
                 type="text"
                 class="form-control border-0 py-3 px-4 fs-5"
-                v-model="searchValue"
                 placeholder="Search your favorite product..."
               />
             </div>
@@ -65,7 +64,11 @@
 
       <div>
         <div class="row g-4">
-          <ProductCard></ProductCard>
+          <ProductCard
+            v-for="product in products"
+            :key="product.id"
+            :product="product"
+          ></ProductCard>
         </div>
       </div>
     </div>
