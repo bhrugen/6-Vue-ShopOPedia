@@ -35,8 +35,8 @@
             <router-link
               class="nav-link active"
               aria-current="page"
-              :to="{ name: APP_ROUTE_NAMES.PRODUCT_CREATE }"
-              >Add Product</router-link
+              :to="{ name: APP_ROUTE_NAMES.CONTACT_US }"
+              >Contact Us</router-link
             >
           </li>
         </ul>
