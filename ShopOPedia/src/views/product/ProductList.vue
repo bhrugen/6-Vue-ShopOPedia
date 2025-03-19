@@ -118,7 +118,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import productService from '@/services/productService'
-import { useSwal } from '@/utility/useSwal'
+import { useSwal } from '@/composibles/useSwal'
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 import { useRouter } from 'vue-router'
 const router = useRouter()
